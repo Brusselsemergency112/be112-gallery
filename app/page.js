@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getInstagramMedia } from "./lib/instagram";
+import { getInstagramMedia } from "./lib/instagram.js";
 
 export default async function Home() {
   const items = await getInstagramMedia();
