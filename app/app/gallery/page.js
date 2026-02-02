@@ -15,9 +15,10 @@ export default async function Gallery() {
               Exposition — BrusselsEmergency112
             </h1>
             <p className="mt-4 text-white/65 max-w-2xl leading-relaxed">
-              Prends le temps. Ici, tout est lent — parce que l’humain l’est aussi.
+              Clique une image. Prends le temps. Ici, tout est lent — parce que l’humain l’est aussi.
             </p>
           </div>
+
           <Link
             href="/"
             className="rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm text-white/80 hover:bg-white/10 transition"
@@ -30,8 +31,8 @@ export default async function Gallery() {
           {photos.map((p) => (
             <Link
               key={p.id}
-              href={p.permalink || "#"}
-              target="_blank"
+              href={p.permalink && p.permalink !== "#" ? p.permalink : `/photo/${p.id}`}
+              target={p.permalink && p.permalink !== "#" ? "_blank" : undefined}
               className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5"
             >
               <div className="relative aspect-[4/5]">
@@ -43,9 +44,10 @@ export default async function Gallery() {
                   sizes="(max-width: 768px) 50vw, 25vw"
                 />
               </div>
+
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
               <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition">
-                <span className="text-xs text-white/90">{p.caption}</span>
+                <span className="text-xs text-white/90 line-clamp-2">{p.caption}</span>
               </div>
             </Link>
           ))}
