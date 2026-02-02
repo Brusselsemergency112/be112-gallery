@@ -10,10 +10,15 @@ export async function getInstagramMedia() {
   const token = process.env.IG_ACCESS_TOKEN;
   const userId = process.env.IG_USER_ID;
 
+  // Tant que Meta n’est pas OK : fallback local
   if (!token || !userId) return MOCK;
 
-  const url = `https://graph.instagram.com/${userId}/media?fields=id,media_url,caption,permalink,timestamp&access_token=${token}`;
-  const res = await fetch(url, { next: { revalidate: 300 } });
+  const url =
+    `https://graph.instagram.com/${userId}/media` +
+    `?fields=id,media_url,caption,permalink,timestamp` +
+    `&access_token=${token}`;
+
+  const res = await fetch(url, { next: { revalidate: 300 } }); // refresh auto
   if (!res.ok) return MOCK;
 
   const json = await res.json();
