@@ -45,40 +45,28 @@ body {
   z-index: -2;
 }
 
-.grain {
+/* Légère texture “musée” SAFE (pas de svg inline) */
+.museum::after {
+  content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.16;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  background-image: radial-gradient(rgba(255,255,255,0.6) 0.6px, transparent 0.6px);
+  background-size: 22px 22px;
   mix-blend-mode: overlay;
 }
 
 @keyframes slowFloat {
-  0% { transform: translateY(0px); opacity: .85; }
+  0% { transform: translateY(0px); opacity: .9; }
   50% { transform: translateY(-10px); opacity: 1; }
-  100% { transform: translateY(0px); opacity: .85; }
+  100% { transform: translateY(0px); opacity: .9; }
 }
 
 .slow-float {
   animation: slowFloat 6.5s ease-in-out infinite;
 }
-
-/* Boutons musée */
-.btn-primary {
-  @apply rounded-2xl px-6 py-4 font-medium text-white transition;
-  background: var(--accent);
-}
-.btn-primary:hover { opacity: .92; }
-
-.btn-ghost {
-  @apply rounded-2xl px-6 py-4 font-medium transition;
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.04);
-  color: rgba(255,255,255,.86);
-}
-.btn-ghost:hover { background: rgba(255,255,255,.08); }
 
 .card {
   border: 1px solid rgba(255,255,255,.10);
@@ -94,3 +82,29 @@ body {
 
 .small-muted { color: var(--muted2); }
 .muted { color: var(--muted); }
+
+/* Boutons */
+.btn-primary {
+  border-radius: 16px;
+  padding: 16px 24px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  transition: opacity 160ms ease;
+  display: inline-block;
+}
+.btn-primary:hover { opacity: .92; }
+
+.btn-ghost {
+  border-radius: 16px;
+  padding: 16px 24px;
+  font-weight: 600;
+  transition: background 160ms ease, border-color 160ms ease;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.04);
+  color: rgba(255,255,255,.86);
+  display: inline-block;
+}
+.btn-ghost:hover { background: rgba(255,255,255,.08); }
+
+a { text-decoration: none; }
