@@ -4,107 +4,116 @@
 
 :root {
   --bg: #07080d;
-  --ink: #f6f3ef;
-  --muted: rgba(246, 243, 239, 0.68);
-  --muted2: rgba(246, 243, 239, 0.45);
+  --paper: #edeae6;
+  --muted: rgba(237, 234, 230, 0.62);
+  --line: rgba(237, 234, 230, 0.14);
   --accent: #e11d48;
 }
 
-html,
-body {
-  height: 100%;
-}
+html, body { height: 100%; }
 
-body {
+body{
   background: var(--bg);
-  color: var(--ink);
+  color: var(--paper);
   font-family: var(--font-sans), system-ui, -apple-system, Segoe UI, Roboto, Arial;
   overflow-x: hidden;
 }
 
-.font-serif {
+.font-serif{
   font-family: var(--font-serif), ui-serif, Georgia, "Times New Roman", Times, serif;
 }
 
-/* Ambiance musée */
+/* Muséal: halo très discret + vignette */
 .museum {
-  position: relative;
   min-height: 100vh;
+  position: relative;
   isolation: isolate;
-}
-
-.museum::before {
-  content: "";
-  position: absolute;
-  inset: -20%;
   background:
-    radial-gradient(circle at 18% 22%, rgba(225, 29, 72, 0.20), transparent 55%),
-    radial-gradient(circle at 78% 30%, rgba(96, 165, 250, 0.10), transparent 60%),
-    radial-gradient(circle at 55% 85%, rgba(225, 29, 72, 0.10), transparent 55%),
+    radial-gradient(900px 520px at 18% 22%, rgba(225, 29, 72, 0.14), transparent 60%),
+    radial-gradient(820px 520px at 82% 28%, rgba(110, 167, 255, 0.08), transparent 60%),
+    radial-gradient(900px 520px at 55% 88%, rgba(225, 29, 72, 0.07), transparent 65%),
     linear-gradient(180deg, #07080d 0%, #05060a 100%);
-  z-index: -2;
 }
 
-/* Légère texture “musée” SAFE (pas de svg inline) */
-.museum::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.08;
-  background-image: radial-gradient(rgba(255,255,255,0.6) 0.6px, transparent 0.6px);
-  background-size: 22px 22px;
-  mix-blend-mode: overlay;
+.museum::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  background: radial-gradient(transparent 55%, rgba(0,0,0,.55));
+  opacity:.9;
 }
 
-@keyframes slowFloat {
-  0% { transform: translateY(0px); opacity: .9; }
-  50% { transform: translateY(-10px); opacity: 1; }
-  100% { transform: translateY(0px); opacity: .9; }
-}
-
-.slow-float {
-  animation: slowFloat 6.5s ease-in-out infinite;
-}
-
-.card {
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.04);
-  border-radius: 24px;
+/* Carte “mur” */
+.panel{
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  border-radius: 28px;
   backdrop-filter: blur(10px);
 }
 
-.hr {
-  height: 1px;
-  background: rgba(255,255,255,.10);
+/* Boutons musées : discret + luxe */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, opacity 160ms ease;
+  user-select: none;
 }
 
-.small-muted { color: var(--muted2); }
-.muted { color: var(--muted); }
+.btn:active { transform: scale(.98); }
 
-/* Boutons */
-.btn-primary {
-  border-radius: 16px;
-  padding: 16px 24px;
-  font-weight: 600;
-  color: #fff;
+.btn-primary{
+  background: rgba(237,234,230,0.92);
+  color: #0b0c12;
+  border: 1px solid rgba(237,234,230,0.12);
+}
+
+.btn-primary:hover{
+  background: rgba(237,234,230,0.98);
+}
+
+.btn-ghost{
+  background: transparent;
+  border: 1px solid rgba(237,234,230,0.22);
+  color: rgba(237,234,230,0.85);
+}
+
+.btn-ghost:hover{
+  background: rgba(237,234,230,0.06);
+  border-color: rgba(237,234,230,0.30);
+}
+
+/* Petit “cartel” type musée */
+.label{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  border: 1px solid rgba(237,234,230,0.14);
+  background: rgba(255,255,255,0.03);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(237,234,230,0.70);
+}
+
+.dot{
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
   background: var(--accent);
-  transition: opacity 160ms ease;
-  display: inline-block;
+  box-shadow: 0 0 22px rgba(225,29,72,.75);
 }
-.btn-primary:hover { opacity: .92; }
 
-.btn-ghost {
-  border-radius: 16px;
-  padding: 16px 24px;
-  font-weight: 600;
-  transition: background 160ms ease, border-color 160ms ease;
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.04);
-  color: rgba(255,255,255,.86);
-  display: inline-block;
-}
-.btn-ghost:hover { background: rgba(255,255,255,.08); }
-
-a { text-decoration: none; }
+/* Micro-typo */
+.small { color: rgba(237,234,230,0.55); font-size: 13px; }
+.muted { color: var(--muted); }
+.hr { height: 1px; background: rgba(237,234,230,0.12); }
