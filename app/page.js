@@ -3,10 +3,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="museum px-6">
-      <div className="grain" />
-
       <div className="mx-auto max-w-6xl py-10 md:py-16">
-        {/* Header minimal */}
         <header className="flex items-center justify-between gap-4">
           <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2">
             <span className="h-2 w-2 rounded-full bg-[#E11D48] shadow-[0_0_20px_#E11D48]" />
@@ -23,7 +20,6 @@ export default function Home() {
           </a>
         </header>
 
-        {/* Hero */}
         <section className="mt-12 md:mt-16">
           <div className="card p-7 md:p-10">
             <p className="small-muted tracking-wide uppercase text-xs">Vernissage virtuel</p>
@@ -49,7 +45,6 @@ export default function Home() {
 
             <div className="mt-10 hr" />
 
-            {/* 3 “panneaux” façon musée */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-3">
               <div className="card p-5">
                 <p className="text-xs small-muted tracking-wide uppercase">Intention</p>
@@ -80,7 +75,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Footer */}
         <footer className="mt-10 md:mt-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <p className="text-sm small-muted">
             © {new Date().getFullYear()} — “Ce que la ville oublie, je le montre.”
