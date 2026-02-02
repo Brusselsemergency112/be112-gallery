@@ -37,4 +37,72 @@ export default async function Home() {
 
         <p className="sub">
           La nuit n’est jamais vide. Derrière chaque sirène : un silence, une attente,
-          une main
+          une main posée sur une épaule. Ici, l’image parle doucement.
+        </p>
+
+        <div className="ctaRow">
+          <Link href="/gallery" className="btnPrimary">
+            Entrer dans l’exposition
+          </Link>
+          <Link href="/gallery" className="btnGhost">
+            Voir la collection
+          </Link>
+        </div>
+
+        <p className="hint">Défile ↓</p>
+      </section>
+
+      {/* preview */}
+      <section className="preview">
+        <div className="previewHead">
+          <h2 className="previewTitle">Œuvres récentes</h2>
+          <Link href="/gallery" className="previewLink">Tout voir →</Link>
+        </div>
+
+        <div className="strip" aria-label="Aperçu des photos">
+          {featured.map((p) => {
+            const href = p.permalink && p.permalink !== "#" ? p.permalink : `/photo/${p.id}`;
+            const external = p.permalink && p.permalink !== "#";
+
+            return (
+              <a
+                key={p.id}
+                href={href}
+                target={external ? "_blank" : undefined}
+                rel={external ? "noreferrer" : undefined}
+                className="tile"
+                title={p.caption || "Ouvrir"}
+              >
+                <img className="tileImg" src={p.media_url} alt={p.caption || "BrusselsEmergency112"} />
+                <div className="tileShade" />
+                <div className="tileMeta">
+                  <span className="tileTag">ouvrir</span>
+                  <span className="tileCap">{p.caption || "—"}</span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+
+        <div className="values">
+          <div className="valueCard">
+            <p className="valueK">Intention</p>
+            <p className="valueT">Montrer l’humain derrière l’urgence. Sans bruit. Sans spectacle.</p>
+          </div>
+          <div className="valueCard">
+            <p className="valueK">Rythme</p>
+            <p className="valueT">Une exposition lente. On regarde, on respire, on comprend.</p>
+          </div>
+          <div className="valueCard">
+            <p className="valueK">Signature</p>
+            <p className="valueT">Bruxelles, terrain. — BrusselsEmergency112</p>
+          </div>
+        </div>
+      </section>
+
+      <footer className="footer">
+        <span>© {new Date().getFullYear()} — Ce que la ville oublie, je le montre.</span>
+      </footer>
+    </main>
+  );
+}
