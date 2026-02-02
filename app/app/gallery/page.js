@@ -18,19 +18,26 @@ export default async function Gallery() {
               Prends le temps. Ici, tout est lent — parce que l’humain l’est aussi.
             </p>
           </div>
-          <Link href="/" className="rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm text-white/80 hover:bg-white/10 transition">
+          <Link
+            href="/"
+            className="rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm text-white/80 hover:bg-white/10 transition"
+          >
             Retour
           </Link>
         </div>
 
         <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {photos.map((p) => (
-            <Link key={p.id} href={p.permalink || "#"} target="_blank"
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+            <Link
+              key={p.id}
+              href={p.permalink || "#"}
+              target="_blank"
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+            >
               <div className="relative aspect-[4/5]">
                 <Image
                   src={p.media_url}
-                  alt={p.caption ?? "BrusselsEmergency112"}
+                  alt={p.caption || "BrusselsEmergency112"}
                   fill
                   className="object-cover transition duration-500 group-hover:scale-[1.03]"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -38,7 +45,7 @@ export default async function Gallery() {
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
               <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition">
-                <span className="text-xs text-white/90 line-clamp-2">{p.caption}</span>
+                <span className="text-xs text-white/90">{p.caption}</span>
               </div>
             </Link>
           ))}
