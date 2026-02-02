@@ -15,6 +15,7 @@ export default function PhotoPage({ params }) {
           >
             ← Retour à l’exposition
           </Link>
+
           <div className="text-sm text-white/60">
             <span className="inline-flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[#E11D48]" />
@@ -25,8 +26,22 @@ export default function PhotoPage({ params }) {
 
         <div className="mt-6 relative overflow-hidden rounded-3xl border border-white/10 bg-black/30">
           <div className="relative aspect-[16/10]">
-            <Image src={src} alt={`Photo ${id}`} fill className="object-contain" sizes="100vw" priority />
+            <Image
+              src={src}
+              alt={`Photo ${id}`}
+              fill
+              className="object-contain"
+              sizes="100vw"
+              priority
+            />
           </div>
+        </div>
+
+        <div className="mx-auto max-w-3xl px-2 pb-10">
+          <p className="mt-6 text-white/75 leading-relaxed">
+            Légende (à personnaliser) :{" "}
+            <span className="text-white/90">“Bruxelles — 02:14. Un silence entre deux appels.”</span>
+          </p>
         </div>
       </div>
     </main>
