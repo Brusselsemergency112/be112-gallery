@@ -9,7 +9,7 @@ export const metadata = {
   description: "Rendre visible l’invisible — exposition photographique.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="fr" className={`${inter.variable} ${playfair.variable}`}>
       <body>{children}</body>
