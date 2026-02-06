@@ -7,19 +7,20 @@ function getWorks() {
   if (!fs.existsSync(dir)) return [];
 
   const allowed = new Set([".jpg", ".jpeg", ".png", ".webp"]);
-  return fs
+  const files = fs
     .readdirSync(dir)
     .filter((f) => allowed.has(path.extname(f).toLowerCase()))
-    .sort()
-    .map((file, idx) => ({
-      id: idx + 1,
-      file,
-    }));
+    .sort();
+
+  return files.map((file, idx) => ({
+    id: idx + 1,
+    file,
+    src: `/works/${file}`,
+  }));
 }
 
 export default function Home() {
   const works = getWorks();
-  const featured = works.slice(0, 10);
 
   return (
     <main className="shell">
@@ -28,12 +29,13 @@ export default function Home() {
       <div className="wrap">
         <header className="topbar">
           <div className="brand">
-            <span className="dot" />
+            <span className="pip" />
             <span>BrusselsEmergency112</span>
           </div>
 
           <div className="nav">
-            <a href="#exposition">Exposition</a>
+            <a href="#expo">Exposition</a>
+            <a href="#works">Œuvres</a>
             <a
               href="https://instagram.com/brusselsemergency112"
               target="_blank"
@@ -44,88 +46,67 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="hero">
+        <section className="hero" id="expo">
           <p className="kicker">Vernissage virtuel</p>
-
           <h1 className="h1">
-            Rendre visible <span className="dim">l’invisible</span>.
+            The Art Of You <span className="dim">— rendre visible l’invisible</span>.
           </h1>
-
           <p className="sub">
-            Une photographie du terrain.
+            Bruxelles, terrain. Une exposition vivante — mouvement, urgence, humanité.
             <br />
-            Entre urgence, silence et humanité.
+            <span style={{ opacity: 0.9 }}>
+              11–12 & 18–19 avril · La Ruche Citoyenne · Parvis de Saint-Gilles
+            </span>
           </p>
 
           <div className="cta">
-            <a className="btn btnPrimary" href="#exposition">
-              Entrer dans l’exposition
+            <a className="btn btnPrimary" href="#works">
+              Entrer dans l’exposition <span aria-hidden>→</span>
             </a>
-            <a className="btn btnGhost" href="#collection">
-              Voir la collection
+            <a className="btn btnGhost" href="https://instagram.com/brusselsemergency112" target="_blank" rel="noreferrer">
+              Suivre le projet
             </a>
           </div>
         </section>
 
-        <section id="exposition" className="section">
+        <section className="section" id="works">
           <div className="sectionHead">
-            <h2>Œuvres récentes</h2>
-            <a href="#collection">Collection →</a>
+            <h2>Œuvres</h2>
+            <a href="#expo">Haut ↑</a>
           </div>
 
-          <div className="strip">
-            {featured.length === 0 ? (
-              <p style={{ opacity: 0.7 }}>
-                Mets tes photos dans <code>public/works</code> (jpg/png/webp)
-              </p>
-            ) : (
-              featured.map((w) => (
-                <a
-                  key={w.file}
-                  className="tile"
-                  href={`/works/${w.file}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img src={`/works/${w.file}`} alt={w.file} />
-                  <div className="shade" />
-                  <div className="meta">
-                    <span className="tag">ouvrir</span>
-                    <span className="cap">{w.file}</span>
-                  </div>
-                </a>
-              ))
-            )}
-          </div>
-        </section>
-
-        <section id="collection" className="section">
-          <div className="sectionHead">
-            <h2>Collection</h2>
-          </div>
-
-          <div className="strip">
-            {works.map((w) => (
-              <a
-                key={w.file}
-                className="tile"
-                href={`/works/${w.file}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={`/works/${w.file}`} alt={w.file} />
-                <div className="shade" />
-                <div className="meta">
-                  <span className="tag">{String(w.id).padStart(2, "0")}</span>
-                  <span className="cap">{w.file}</span>
-                </div>
-              </a>
-            ))}
-          </div>
+          {works.length === 0 ? (
+            <p style={{ opacity: 0.7 }}>
+              Ajoute tes images dans <code>public/works</code> (jpg/png/webp), puis Vercel redeploy.
+            </p>
+          ) : (
+            <div className="grid">
+              {works.map((w, i) => {
+                const big = i % 9 === 0; // rythme visuel
+                return (
+                  <a
+                    key={w.file}
+                    className={`tile ${big ? "big" : ""}`}
+                    href={w.src}
+                    target="_blank"
+                    rel="noreferrer"
+                    title={w.file}
+                  >
+                    <img src={w.src} alt={w.file} />
+                    <div className="shade" />
+                    <div className="meta">
+                      <span className="tag">{String(w.id).padStart(2, "0")} · œuvre</span>
+                      <span className="cap">{w.file}</span>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         <footer className="footer">
-          © {new Date().getFullYear()} — The Art Of You · Parcours d’Artistes de Saint-Gilles
+          © {new Date().getFullYear()} — BrusselsEmergency112 · Parcours d’Artistes de Saint-Gilles
         </footer>
       </div>
     </main>
