@@ -1,108 +1,133 @@
-import Link from "next/link";
-import { getInstagramMedia } from "./lib/instagram.js";
+import fs from "fs";
+import path from "path";
+import EventPopup from "./components/EventPopup";
 
-export default async function Home() {
-  const items = await getInstagramMedia();
-  const featured = (items || []).slice(0, 8);
+function getWorks() {
+  const dir = path.join(process.cwd(), "public", "works");
+  if (!fs.existsSync(dir)) return [];
+
+  const allowed = new Set([".jpg", ".jpeg", ".png", ".webp"]);
+  return fs
+    .readdirSync(dir)
+    .filter((f) => allowed.has(path.extname(f).toLowerCase()))
+    .sort()
+    .map((file, idx) => ({
+      id: idx + 1,
+      file,
+    }));
+}
+
+export default function Home() {
+  const works = getWorks();
+  const featured = works.slice(0, 10);
 
   return (
-    <main className="home">
-      {/* top bar */}
-      <header className="topbar">
-        <div className="brand">
-          <span className="brandDot" />
-          <span>BrusselsEmergency112</span>
-        </div>
+    <main className="shell">
+      <EventPopup />
 
-        <nav className="nav">
-          <Link href="/gallery" className="navLink">Exposition</Link>
-          <a
-            href="https://instagram.com/brusselsemergency112"
-            target="_blank"
-            rel="noreferrer"
-            className="navLink"
-          >
-            Instagram
-          </a>
-        </nav>
-      </header>
+      <div className="wrap">
+        <header className="topbar">
+          <div className="brand">
+            <span className="dot" />
+            <span>BrusselsEmergency112</span>
+          </div>
 
-      {/* hero */}
-      <section className="hero">
-        <p className="kicker">Vernissage virtuel</p>
+          <div className="nav">
+            <a href="#exposition">Exposition</a>
+            <a
+              href="https://instagram.com/brusselsemergency112"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Instagram
+            </a>
+          </div>
+        </header>
 
-        <h1 className="title font-serif">
-          Rendre visible <span className="dim">l’invisible</span>.
-        </h1>
+        <section className="hero">
+          <p className="kicker">Vernissage virtuel</p>
 
-        <p className="sub">
-          La nuit n’est jamais vide. Derrière chaque sirène : un silence, une attente,
-          une main posée sur une épaule. Ici, l’image parle doucement.
-        </p>
+          <h1 className="h1">
+            Rendre visible <span className="dim">l’invisible</span>.
+          </h1>
 
-        <div className="ctaRow">
-          <Link href="/gallery" className="btnPrimary">
-            Entrer dans l’exposition
-          </Link>
-          <Link href="/gallery" className="btnGhost">
-            Voir la collection
-          </Link>
-        </div>
+          <p className="sub">
+            Une photographie du terrain.
+            <br />
+            Entre urgence, silence et humanité.
+          </p>
 
-        <p className="hint">Défile ↓</p>
-      </section>
+          <div className="cta">
+            <a className="btn btnPrimary" href="#exposition">
+              Entrer dans l’exposition
+            </a>
+            <a className="btn btnGhost" href="#collection">
+              Voir la collection
+            </a>
+          </div>
+        </section>
 
-      {/* preview */}
-      <section className="preview">
-        <div className="previewHead">
-          <h2 className="previewTitle">Œuvres récentes</h2>
-          <Link href="/gallery" className="previewLink">Tout voir →</Link>
-        </div>
+        <section id="exposition" className="section">
+          <div className="sectionHead">
+            <h2>Œuvres récentes</h2>
+            <a href="#collection">Collection →</a>
+          </div>
 
-        <div className="strip" aria-label="Aperçu des photos">
-          {featured.map((p) => {
-            const href = p.permalink && p.permalink !== "#" ? p.permalink : `/photo/${p.id}`;
-            const external = p.permalink && p.permalink !== "#";
+          <div className="strip">
+            {featured.length === 0 ? (
+              <p style={{ opacity: 0.7 }}>
+                Mets tes photos dans <code>public/works</code> (jpg/png/webp)
+              </p>
+            ) : (
+              featured.map((w) => (
+                <a
+                  key={w.file}
+                  className="tile"
+                  href={`/works/${w.file}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={`/works/${w.file}`} alt={w.file} />
+                  <div className="shade" />
+                  <div className="meta">
+                    <span className="tag">ouvrir</span>
+                    <span className="cap">{w.file}</span>
+                  </div>
+                </a>
+              ))
+            )}
+          </div>
+        </section>
 
-            return (
+        <section id="collection" className="section">
+          <div className="sectionHead">
+            <h2>Collection</h2>
+          </div>
+
+          <div className="strip">
+            {works.map((w) => (
               <a
-                key={p.id}
-                href={href}
-                target={external ? "_blank" : undefined}
-                rel={external ? "noreferrer" : undefined}
+                key={w.file}
                 className="tile"
-                title={p.caption || "Ouvrir"}
+                href={`/works/${w.file}`}
+                target="_blank"
+                rel="noreferrer"
               >
-                <img className="tileImg" src={p.media_url} alt={p.caption || "BrusselsEmergency112"} />
-                <div className="tileShade" />
-                <div className="tileMeta">
-                  <span className="tileTag">ouvrir</span>
-                  <span className="tileCap">{p.caption || "—"}</span>
+                <img src={`/works/${w.file}`} alt={w.file} />
+                <div className="shade" />
+                <div className="meta">
+                  <span className="tag">{String(w.id).padStart(2, "0")}</span>
+                  <span className="cap">{w.file}</span>
                 </div>
               </a>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        </section>
 
-        <div className="values">
-          <div className="valueCard">
-            <p className="valueK">Intention</p>
-            <p className="valueT">Montrer l’humain derrière l’urgence. Sans bruit. Sans spectacle.</p>
-          </div>
-          <div className="valueCard">
-            <p className="valueK">Rythme</p>
-            <p className="valueT">Une exposition lente. On regarde, on respire, on comprend.</p>
-          </div>
-          <div className="valueCard">
-            <p className="valueK">Signature</p>
-            <p className="valueT">Bruxelles, terrain. — BrusselsEmergency112</p>
-          </div>
-        </div>
-      </section>
-
-      <footer className="footer">
-        <span>© {new Date().getFullYear()} — Ce que la ville oublie, je le montre.</span>
-      </footer>
+        <footer className="footer">
+          © {new Date().getFullYear()} — The Art Of You · Parcours d’Artistes de Saint-Gilles
+        </footer>
+      </div>
     </main>
   );
 }
